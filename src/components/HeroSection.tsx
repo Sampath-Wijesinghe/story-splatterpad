@@ -1,80 +1,112 @@
 import { motion } from "framer-motion";
-import heroImg from "@/assets/hero-koi.jpg";
+import { ArrowRight, Play } from "lucide-react";
+import heroVideo from "@/assets/hero-koi-video.mp4";
 
 const HeroSection = () => {
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background image */}
-      <div className="absolute inset-0">
-        <img
-          src={heroImg}
-          alt="Koi fish swimming in clear pond"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-koi-deep/70" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/40" />
-      </div>
+    <section
+      id="home"
+      className="relative min-h-screen flex items-center overflow-hidden bg-koi-deep"
+    >
+      {/* Subtle background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-koi-deep via-background to-koi-teal/20" />
 
-      {/* Content */}
-      <div className="relative z-10 text-center px-4 max-w-3xl mx-auto">
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-sm uppercase tracking-[0.3em] text-primary mb-4 font-display"
-        >
-          Koi Pond Products
-        </motion.p>
+      <div className="relative z-10 container mx-auto px-6 md:px-12 py-32 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        {/* Left — Typography */}
+        <div className="flex flex-col gap-6">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-xs uppercase tracking-[0.35em] text-primary font-display"
+          >
+            Premium Koi Pond Products
+          </motion.p>
 
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="font-display text-5xl md:text-7xl font-bold leading-tight mb-6"
-        >
-          <span className="text-gradient-gold">Koi Majesty</span>
-        </motion.h1>
+          <motion.h1
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.15 }}
+            className="font-display text-6xl md:text-8xl lg:text-9xl font-bold leading-[0.95] tracking-tight"
+          >
+            <span className="text-foreground">The Art</span>
+            <br />
+            <span className="text-foreground">of&nbsp;</span>
+            <span className="text-gradient-gold italic font-light">Serenity</span>
+          </motion.h1>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-lg md:text-xl text-secondary-foreground/80 max-w-xl mx-auto mb-10 font-body"
-        >
-          Make it affordable — your premium koi pond. Turn your koi keeping dream into reality with simple &amp; easy solutions.
-        </motion.p>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="text-muted-foreground max-w-md text-base md:text-lg font-body leading-relaxed"
+          >
+            Making premium koi pond care affordable and effortless.
+            Experience the beauty of natural balance.
+          </motion.p>
 
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.55 }}
+            className="flex gap-4 items-center flex-wrap mt-2"
+          >
+            <a
+              href="#products"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-lg bg-primary text-primary-foreground font-display font-semibold text-sm tracking-wide hover:brightness-110 transition-all glow-gold"
+            >
+              Explore Products
+              <ArrowRight size={16} />
+            </a>
+            <a
+              href="#about"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-lg border border-border text-foreground font-display font-semibold text-sm tracking-wide hover:bg-secondary transition-all"
+            >
+              Our Story
+            </a>
+          </motion.div>
+
+          {/* Bottom links */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.7 }}
+            className="flex items-center gap-6 mt-8 text-xs text-muted-foreground font-display tracking-widest uppercase"
+          >
+            <span>Pumps</span>
+            <span className="w-8 h-px bg-border" />
+            <span>Filters</span>
+            <span className="w-8 h-px bg-border" />
+            <span>Aerators</span>
+          </motion.div>
+        </div>
+
+        {/* Right — Video Box */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="flex gap-4 justify-center flex-wrap"
+          initial={{ opacity: 0, scale: 0.92 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.9, delay: 0.3 }}
+          className="relative flex justify-center lg:justify-end"
         >
-          <a
-            href="#products"
-            className="px-8 py-3 rounded-lg bg-primary text-primary-foreground font-display font-semibold text-sm tracking-wide hover:brightness-110 transition-all glow-gold"
-          >
-            Explore Products
-          </a>
-          <a
-            href="#about"
-            className="px-8 py-3 rounded-lg border border-border text-foreground font-display font-semibold text-sm tracking-wide hover:bg-secondary transition-all"
-          >
-            Learn More
-          </a>
+          <div className="relative w-full max-w-md lg:max-w-lg aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl">
+            <video
+              src={heroVideo}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-cover"
+            />
+            {/* Play badge */}
+            <div className="absolute bottom-6 right-6 flex items-center gap-2 bg-background/60 backdrop-blur-md rounded-full px-4 py-2 cursor-pointer hover:bg-background/80 transition-colors">
+              <Play size={14} className="text-primary fill-primary" />
+              <span className="text-xs font-display tracking-wider text-foreground uppercase">
+                Watch Video
+              </span>
+            </div>
+          </div>
         </motion.div>
       </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        animate={{ y: [0, 8, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-      >
-        <div className="w-6 h-10 rounded-full border-2 border-primary/40 flex items-start justify-center p-1.5">
-          <div className="w-1.5 h-2.5 rounded-full bg-primary" />
-        </div>
-      </motion.div>
     </section>
   );
 };
