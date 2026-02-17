@@ -11,6 +11,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { useToast } from '@/hooks/use-toast';
 import { Plus, Pencil, Trash2, Upload, Eye, EyeOff } from 'lucide-react';
 import { format } from 'date-fns';
+import RichTextEditor from './RichTextEditor';
 
 const AdminBlog = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -28,6 +29,8 @@ const AdminBlog = () => {
     excerpt: '',
     image_url: '',
     published: false,
+    meta_title: '',
+    meta_description: '',
   });
 
   const fetchPosts = async () => {
@@ -39,7 +42,7 @@ const AdminBlog = () => {
   useEffect(() => { fetchPosts(); }, []);
 
   const resetForm = () => {
-    setForm({ title: '', slug: '', content: '', excerpt: '', image_url: '', published: false });
+    setForm({ title: '', slug: '', content: '', excerpt: '', image_url: '', published: false, meta_title: '', meta_description: '' });
     setEditing(null);
   };
 
@@ -56,6 +59,8 @@ const AdminBlog = () => {
       excerpt: post.excerpt || '',
       image_url: post.image_url || '',
       published: post.published,
+      meta_title: post.meta_title || '',
+      meta_description: post.meta_description || '',
     });
     setDialogOpen(true);
   };
@@ -85,6 +90,8 @@ const AdminBlog = () => {
       image_url: form.image_url || null,
       published: form.published,
       author_id: user?.id || null,
+      meta_title: form.meta_title || null,
+      meta_description: form.meta_description || null,
     };
 
     if (editing) {
@@ -117,27 +124,32 @@ const AdminBlog = () => {
           <DialogTrigger asChild>
             <Button><Plus size={16} className="mr-2" /> Add Post</Button>
           </DialogTrigger>
-          <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>{editing ? 'Edit Post' : 'New Blog Post'}</DialogTitle>
             </DialogHeader>
             <div className="space-y-4">
-              <div className="space-y-2">
-                <Label>Title</Label>
-                <Input value={form.title} onChange={(e) => { setForm(f => ({ ...f, title: e.target.value, slug: editing ? f.slug : generateSlug(e.target.value) })); }} />
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Title</Label>
+                  <Input value={form.title} onChange={(e) => { setForm(f => ({ ...f, title: e.target.value, slug: editing ? f.slug : generateSlug(e.target.value) })); }} />
+                </div>
+                <div className="space-y-2">
+                  <Label>Slug</Label>
+                  <Input value={form.slug} onChange={(e) => setForm(f => ({ ...f, slug: e.target.value }))} />
+                </div>
               </div>
-              <div className="space-y-2">
-                <Label>Slug</Label>
-                <Input value={form.slug} onChange={(e) => setForm(f => ({ ...f, slug: e.target.value }))} />
-              </div>
+
               <div className="space-y-2">
                 <Label>Excerpt</Label>
                 <Textarea value={form.excerpt} onChange={(e) => setForm(f => ({ ...f, excerpt: e.target.value }))} rows={2} placeholder="Short description for listings..." />
               </div>
+
               <div className="space-y-2">
-                <Label>Content</Label>
-                <Textarea value={form.content} onChange={(e) => setForm(f => ({ ...f, content: e.target.value }))} rows={10} placeholder="Write your blog post content..." />
+                <Label>Content (Rich Text)</Label>
+                <RichTextEditor content={form.content} onChange={(html) => setForm(f => ({ ...f, content: html }))} placeholder="Write your blog post content..." />
               </div>
+
               <div className="space-y-2">
                 <Label>Featured Image</Label>
                 <div className="flex gap-2">
@@ -151,10 +163,29 @@ const AdminBlog = () => {
                 </div>
                 {form.image_url && <img src={form.image_url} alt="Preview" className="h-24 rounded-lg object-cover mt-2" />}
               </div>
+
+              {/* SEO Meta Fields */}
+              <div className="border-t border-border pt-4">
+                <p className="text-sm font-medium text-foreground mb-3">SEO Settings</p>
+                <div className="space-y-3">
+                  <div className="space-y-2">
+                    <Label>Meta Title</Label>
+                    <Input value={form.meta_title} onChange={(e) => setForm(f => ({ ...f, meta_title: e.target.value }))} placeholder="SEO title (defaults to post title)" maxLength={60} />
+                    <p className="text-xs text-muted-foreground">{form.meta_title.length}/60 characters</p>
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Meta Description</Label>
+                    <Textarea value={form.meta_description} onChange={(e) => setForm(f => ({ ...f, meta_description: e.target.value }))} placeholder="SEO description for search engines..." rows={2} maxLength={160} />
+                    <p className="text-xs text-muted-foreground">{form.meta_description.length}/160 characters</p>
+                  </div>
+                </div>
+              </div>
+
               <div className="flex items-center gap-2">
                 <Switch checked={form.published} onCheckedChange={(v) => setForm(f => ({ ...f, published: v }))} />
-                <Label>Published</Label>
+                <Label>{form.published ? 'Published' : 'Draft'}</Label>
               </div>
+
               <Button onClick={handleSave} className="w-full">{editing ? 'Update' : 'Create'} Post</Button>
             </div>
           </DialogContent>

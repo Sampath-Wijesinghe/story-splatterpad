@@ -7,7 +7,9 @@ export interface Product {
   description: string | null;
   price: number | null;
   image_url: string | null;
+  images: string[];
   featured: boolean;
+  status: string;
   specifications: Record<string, string> | null;
   created_at: string;
   updated_at: string;
@@ -22,6 +24,8 @@ export interface BlogPost {
   image_url: string | null;
   published: boolean;
   author_id: string | null;
+  meta_title: string | null;
+  meta_description: string | null;
   created_at: string;
   updated_at: string;
 }

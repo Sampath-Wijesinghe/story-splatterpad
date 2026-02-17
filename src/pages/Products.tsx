@@ -33,6 +33,7 @@ const Products = () => {
         .from('products')
         .select('*')
         .eq('category', cat)
+        .eq('status', 'active')
         .order('created_at', { ascending: false });
       setProducts((data as Product[]) || []);
       setLoading(false);
@@ -109,7 +110,9 @@ const Products = () => {
                 )}
                 <div className="p-5">
                   <h3 className="font-display font-semibold text-lg text-foreground mb-2">{product.title}</h3>
-                  <p className="text-sm text-muted-foreground mb-3 leading-relaxed line-clamp-2">{product.description}</p>
+                  {product.description && (
+                    <div className="text-sm text-muted-foreground mb-3 leading-relaxed line-clamp-2" dangerouslySetInnerHTML={{ __html: product.description }} />
+                  )}
                   {product.price && (
                     <p className="font-display font-bold text-primary text-lg">
                       Rs. {Number(product.price).toLocaleString()}
