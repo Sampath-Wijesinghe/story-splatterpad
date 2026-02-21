@@ -5,10 +5,12 @@ import GallerySection from "@/components/GallerySection";
 import ProductsSection from "@/components/ProductsSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
+import WaterBubbles from "@/components/WaterBubbles";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
+      <WaterBubbles />
       <Navbar />
       <HeroSection />
       <AboutSection />
